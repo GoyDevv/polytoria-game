@@ -40,6 +40,7 @@ jobs:
           mkdir -p apks
           cd Polytoria
           dotnet restore
+          cp export_presets.cfg.template export_presets.cfg
           godot --headless --export-debug "Client Android APK" ../apks/yesss.apk
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
