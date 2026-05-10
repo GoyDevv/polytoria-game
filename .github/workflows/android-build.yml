@@ -39,6 +39,8 @@ jobs:
         run: |
           mkdir -p apks
           cd Polytoria
+          unzip ~/.local/share/godot/export_templates/${{ env.GODOT_VERSION }}.stable.mono/android_source.zip -d android/build
+          echo "${{ env.GODOT_VERSION }}.stable.mono" > android/build/.build_version
           dotnet restore
           cp export_presets.cfg.template export_presets.cfg
           godot --headless --export-debug "Client Android APK" ../apks/yesss.apk
