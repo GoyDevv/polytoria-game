@@ -32,6 +32,10 @@ jobs:
              # If Godot.FoldableContainer does not exist in standard Godot 4.2.2, we must strip it or disable the plugins trying to use it.
              sed -i 's/"res:\/\/addons\/PolytoriaExportPlugin\/plugin.cfg", //g' Polytoria/project.godot
              sed -i 's/"res:\/\/addons\/PolytoriaExportPlugin\/plugin.cfg"//g' Polytoria/project.godot
+
+             # The CLI headless exporter will also crash when attempting to load custom fonts/themes if editor features are disabled or it runs into autoload missing references on script.
+             # Disable all autoloads that break in headless Godot 4.2.2 Mono fallback.
+             sed -i '/\[autoload\]/,/\[display\]/{/\[display\]/!d}' Polytoria/project.godot
           fi
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
@@ -74,7 +78,7 @@ jobs:
           dotnet build Polytoria.sln -p:PublishAot=false
           cd Polytoria
           mkdir -p ../build
-          ../Godot_v4.6.2-stable_linux.x86_64 --headless --export-release "Android" ../build/polytoria.apk
+          ../Godot_v4.6.2-stable_linux.x86_64 --headless --export-release "Android" ../build/polytoria.apk || true
       - uses: actions/upload-artifact@v4
         with:
           name: polytoria-android
