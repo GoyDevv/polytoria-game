@@ -58,7 +58,7 @@ jobs:
         run: dotnet restore Polytoria.sln
 
       - name: Build solution
-        run: dotnet build Polytoria.sln -c Release --no-restore
+        run: dotnet build Polytoria.sln -c ExportRelease --no-restore
 
       - name: Export Android APK
         run: |
