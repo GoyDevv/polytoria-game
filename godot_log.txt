@@ -1,0 +1,42 @@
+Godot Engine v4.2.2.stable.mono.official.15073afe3 - https://godotengine.org
+
+System.TypeLoadException: Could not load type 'Godot.FoldableContainer' from assembly 'GodotSharp, Version=4.2.2.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.RuntimeAssembly.GetTypeCore(QCallAssembly assembly, String typeName, ReadOnlySpan`1 nestedTypeNames, Int32 nestedTypeNamesLength, ObjectHandleOnStack retType)
+   at System.Reflection.RuntimeAssembly.GetTypeCore(String typeName, ReadOnlySpan`1 nestedTypeNames, Boolean throwOnFileNotFound, Boolean ignoreCase)
+   at System.Reflection.TypeNameResolver.GetTypeFromDefaultAssemblies(String typeName, ReadOnlySpan`1 nestedTypeNames, TypeName parsedName)
+   at System.Reflection.TypeNameResolver.GetType(String escapedTypeName, ReadOnlySpan`1 nestedTypeNames, TypeName parsedName)
+   at System.Reflection.TypeNameResolver.GetTypeHelper(ReadOnlySpan`1 typeName, RuntimeAssembly requestingAssembly, Boolean throwOnError, Boolean requireAssemblyQualifiedName, IntPtr unsafeAccessorMethod)
+   at System.Reflection.CustomAttribute.CreateCustomAttributeInstance(RuntimeModule module, RuntimeType type, IRuntimeMethodInfo ctor, IntPtr& blob, IntPtr blobEnd, Int32& namedArgs)
+   at System.Reflection.CustomAttribute.AddCustomAttributes(ListBuilder`1& attributes, RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1 derivedAttributes)
+   at System.Reflection.CustomAttribute.GetCustomAttributes(RuntimeModule decoratedModule, Int32 decoratedMetadataToken, Int32 pcaCount, RuntimeType attributeFilterType)
+   at Godot.Bridge.ScriptManagerBridge.LookupScriptsInAssembly(Assembly assembly) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/ScriptManagerBridge.cs:line 315
+   at GodotPlugins.Main.LoadProjectAssembly(Char* nAssemblyPath, godot_string* outLoadedAssemblyPath) in /root/godot/modules/mono/glue/GodotSharp/GodotPlugins/Main.cs:line 154
+ERROR: Condition "!unique_ids.has(p_id)" is true. Returning: String()
+   at: get_id_path (core/io/resource_uid.cpp:132)
+ERROR: Resource file not found:  (expected type: )
+   at: _load (core/io/resource_loader.cpp:279)
+ERROR: Error loading custom project theme 'uid://cwykhfx1ffjoj'
+   at: initialize_theme (scene/theme/theme_db.cpp:72)
+ERROR: Condition "!unique_ids.has(p_id)" is true. Returning: String()
+   at: get_id_path (core/io/resource_uid.cpp:132)
+ERROR: Resource file not found:  (expected type: )
+   at: _load (core/io/resource_loader.cpp:279)
+ERROR: Error loading custom project font 'uid://c4ad5x0dhckrv'
+   at: initialize_theme (scene/theme/theme_db.cpp:82)
+WARNING: Custom cursor shape not supported by this display server.
+     at: cursor_set_custom_image (servers/display_server.cpp:505)
+ERROR: Failed to create an autoload, script 'res://scripts/shared/Globals.cs' does not inherit from 'Node'.
+   at: _create_autoload (editor/editor_autoload_settings.cpp:423)
+ERROR: Failed to create an autoload, script 'res://scripts/platform/PlatformManager.cs' does not inherit from 'Node'.
+   at: _create_autoload (editor/editor_autoload_settings.cpp:423)
+ERROR: Failed to create an autoload, script 'res://scripts/mobile/MobileQualityProfile.cs' does not inherit from 'Node'.
+   at: _create_autoload (editor/editor_autoload_settings.cpp:423)
+ERROR: Condition "!unique_ids.has(p_id)" is true. Returning: String()
+   at: get_id_path (core/io/resource_uid.cpp:132)
+ERROR: Condition "!unique_ids.has(p_id)" is true. Returning: String()
+   at: get_id_path (core/io/resource_uid.cpp:132)
+
+================================================================
+handle_crash: Program crashed with signal 11
+Engine version: Godot Engine v4.2.2.stable.mono.official (15073afe3856abd2aa1622492fe50026c7d63dc1)
+Dumping the backtrace. Please include this when reporting the bug to the project developer.

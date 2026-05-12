@@ -1,4 +1,11 @@
 <<<<<<< SEARCH
+      - name: Cache Android Export Templates
+        uses: actions/cache@v3
+        with:
+          path: ~/.local/share/godot/export_templates
+          key: ${{ runner.os }}-godot-export-templates-4.6.2
+          restore-keys: |
+            ${{ runner.os }}-godot-export-templates-
       - name: Download Precompiled Android Export Templates
         run: |
           if [ ! -d ~/.local/share/godot/export_templates/4.6.2.stable ]; then
@@ -12,6 +19,13 @@
              unzip -q ~/.local/share/godot/export_templates/4.6.2.stable/android_source.zip -d Polytoria/android/build || true
           fi
 =======
+      - name: Cache Android Export Templates
+        uses: actions/cache@v3
+        with:
+          path: ~/.local/share/godot/export_templates
+          key: ${{ runner.os }}-godot-export-templates-4.6.2
+          restore-keys: |
+            ${{ runner.os }}-godot-export-templates-
       - name: Download Precompiled Android Export Templates
         run: |
           if [ ! -d ~/.local/share/godot/export_templates/4.2.2.stable.mono ]; then
