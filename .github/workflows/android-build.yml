@@ -17,8 +17,18 @@ jobs:
           chmod +x Godot_v4.6.2-stable_linux.x86_64
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+      - name: Cache Android Export Templates
+        uses: actions/cache@v3
+        with:
+          path: ~/.local/share/godot/export_templates
+          key: ${{ runner.os }}-godot-export-templates-4.6.2
+          restore-keys: |
+            ${{ runner.os }}-godot-export-templates-
       - name: Install Android Export Templates
-        run: ./Godot_v4.6.2-stable_linux.x86_64 --headless --install-android-build-template
+        run: |
+          if [ ! -d ~/.local/share/godot/export_templates/4.6.2.stable ]; then
+             ./Godot_v4.6.2-stable_linux.x86_64 --headless --install-android-build-template
+          fi
       - name: Build
         run: dotnet build Polytoria.sln -c Release && ./Godot_v4.6.2-stable_linux.x86_64 --headless --export-release "Android" build/polytoria.apk
       - uses: actions/upload-artifact@v4
