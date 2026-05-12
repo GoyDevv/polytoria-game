@@ -42,8 +42,7 @@ jobs:
           mkdir -p ~/.android
           keytool -genkey -v -keystore ~/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "C=US, O=Android, CN=Android Debug" || true
 
-          # Fix Android APK "App not installed as package appears to be invalid" by forcing standard build
-          sed -i 's/custom_build\/use_custom_build=true/custom_build\/use_custom_build=false/g' Polytoria/export_presets.cfg
+          sed -i 's/package\/target_api=.*/package\/target_api=35/g' Polytoria/export_presets.cfg
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
       - name: Setup Gradle Cache
@@ -83,9 +82,14 @@ jobs:
         run: |
           mkdir -p build
           dotnet build Polytoria.sln -p:PublishAot=false
-          cd Polytoria
+          cd Polytoria || true
           mkdir -p ../build
-          ../Godot_v4.6.2-stable_linux.x86_64 --headless --export-release "Android" ../build/polytoria.apk || true
+          ../Godot_v4.6.2-stable_linux.x86_64 --headless --export-release "Android" ../build/polytoria-unsigned.apk || true
+      - name: Zipalign and Sign APK
+        run: |
+          BUILD_TOOLS_DIR=$(ls -d $ANDROID_HOME/build-tools/* | tail -1)
+          $BUILD_TOOLS_DIR/zipalign -v -p 4 build/polytoria-unsigned.apk build/polytoria-aligned.apk || true
+          $BUILD_TOOLS_DIR/apksigner sign --ks ~/.android/debug.keystore --ks-pass pass:android --key-pass pass:android --ks-key-alias androiddebugkey --out build/polytoria.apk build/polytoria-aligned.apk || cp build/polytoria-unsigned.apk build/polytoria.apk
       - uses: actions/upload-artifact@v4
         with:
           name: polytoria-android

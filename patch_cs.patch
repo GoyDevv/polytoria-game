@@ -1,8 +1,0 @@
-<<<<<<< SEARCH
-	private int? _pendingShirtID;
-	private int? _pendingPantsID;
-
-	protected override float PositionSyncThreshold => 0.1f;
-=======
-	protected override float PositionSyncThreshold => 0.1f;
->>>>>>> REPLACE
