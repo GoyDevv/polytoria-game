@@ -46,7 +46,7 @@ jobs:
              unzip -q ~/.local/share/godot/export_templates/4.6.2.stable/android_source.zip -d Polytoria/android/build || true
           fi
       - name: Build
-        run: dotnet build Polytoria.sln -c Release && ./Godot_v4.6.2-stable_linux.x86_64 --headless --export-release "Android" build/polytoria.apk
+        run: dotnet build Polytoria.sln -p:PublishAot=false && ./Godot_v4.6.2-stable_linux.x86_64 --headless --export-release "Android" build/polytoria.apk
       - uses: actions/upload-artifact@v4
         with:
           name: polytoria-android
