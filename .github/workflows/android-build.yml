@@ -37,6 +37,13 @@ jobs:
              # Disable all autoloads that break in headless Godot 4.2.2 Mono fallback.
              sed -i '/\[autoload\]/,/\[display\]/{/\[display\]/!d}' Polytoria/project.godot
           fi
+
+          # Fix keystore issue preventing APK installation on actual Android devices
+          mkdir -p ~/.android
+          keytool -genkey -v -keystore ~/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "C=US, O=Android, CN=Android Debug" || true
+
+          # Fix Android APK "App not installed as package appears to be invalid" by forcing standard build
+          sed -i 's/custom_build\/use_custom_build=true/custom_build\/use_custom_build=false/g' Polytoria/export_presets.cfg
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
       - name: Setup Gradle Cache
