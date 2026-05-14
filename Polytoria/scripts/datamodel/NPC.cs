@@ -59,9 +59,6 @@ public partial class NPC : Physical
 	private Color? _pendingLeftLegColor;
 	private Color? _pendingRightLegColor;
 	private int? _pendingFaceID;
-	private int? _pendingShirtID;
-	private int? _pendingPantsID;
-
 	protected override float PositionSyncThreshold => 0.1f;
 	protected override float RotationSyncThreshold => 1f;
 

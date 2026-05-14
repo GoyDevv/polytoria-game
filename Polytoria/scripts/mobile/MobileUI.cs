@@ -54,6 +54,24 @@ public partial class MobileUI : Control
 
 		SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
 
+		var safeArea = DisplayServer.GetDisplaySafeArea();
+		var marginContainer = new MarginContainer();
+		marginContainer.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
+		marginContainer.AddThemeConstantOverride("margin_left", safeArea.Position.X);
+		marginContainer.AddThemeConstantOverride("margin_top", safeArea.Position.Y);
+		marginContainer.AddThemeConstantOverride("margin_right", DisplayServer.ScreenGetSize().X - safeArea.End.X);
+		marginContainer.AddThemeConstantOverride("margin_bottom", DisplayServer.ScreenGetSize().Y - safeArea.End.Y);
+
+		// Move main layout to be under the MarginContainer
+		Control layout = GetNode<Control>("Layout");
+		if (layout != null)
+		{
+			RemoveChild(layout);
+			marginContainer.AddChild(layout);
+		}
+
+		AddChild(marginContainer, false, InternalMode.Front);
+
 		if (StartSplash != null)
 		{
 			StartSplash!.Visible = true;
@@ -129,6 +147,15 @@ public partial class MobileUI : Control
 			LoadingScreen.ShowScreen();
 			await PolyMobileAuthAPI.LoginWithCodeAndState(code, state);
 			LoadingScreen.HideScreen();
+		}
+
+		if (url.Host == "join")
+		{
+			NameValueCollection joinQuery = HttpUtility.ParseQueryString(url.Query);
+			if (int.TryParse(joinQuery.Get("placeId"), out int placeId))
+			{
+				LaunchGame(placeId);
+			}
 		}
 
 		if (url.Host == "client")

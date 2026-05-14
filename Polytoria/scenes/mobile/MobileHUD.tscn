@@ -1,0 +1,70 @@
+[gd_scene load_steps=4 format=3 uid="uid://cb5k3o1w6a2m2"]
+
+[ext_resource type="Script" path="res://scripts/mobile/VirtualJoystick.cs" id="1_virtual_joystick"]
+[ext_resource type="Script" path="res://scripts/client/ui/touch/CameraTurnArea.cs" id="2_camera_turn"]
+[ext_resource type="Script" path="res://scripts/mobile/TouchCameraController.cs" id="3_touch_camera"]
+
+[node name="MobileHUD" type="CanvasLayer"]
+layer = 10
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TouchCameraArea" type="Control" parent="Control"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -600.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("3_touch_camera")
+
+[node name="JumpButton" type="TouchScreenButton" parent="Control"]
+position = Vector2(1000, 500)
+action = "jump"
+visibility_mode = 1
+
+[node name="InteractButton" type="TouchScreenButton" parent="Control"]
+position = Vector2(1000, 350)
+action = "activate"
+visibility_mode = 1
+
+[node name="ChatButton" type="TouchScreenButton" parent="Control"]
+position = Vector2(50, 50)
+action = "chat"
+visibility_mode = 1
+
+[node name="InventoryButton" type="TouchScreenButton" parent="Control"]
+position = Vector2(1000, 50)
+action = "inventory"
+visibility_mode = 1
+
+[node name="MenuButton" type="TouchScreenButton" parent="Control"]
+position = Vector2(1100, 50)
+action = "menu"
+visibility_mode = 1
+
+[node name="EmoteButton" type="TouchScreenButton" parent="Control"]
+position = Vector2(850, 500)
+action = "emote"
+visibility_mode = 1
+
+[node name="VirtualJoystick" type="Control" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -400.0
+offset_right = 400.0
+grow_vertical = 0
+mouse_filter = 1
+script = ExtResource("1_virtual_joystick")

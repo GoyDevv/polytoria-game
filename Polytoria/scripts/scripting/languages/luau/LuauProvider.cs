@@ -37,7 +37,6 @@ public sealed partial class LuauProvider : IScriptLanguageProvider
 	private static readonly Dictionary<PTCallbackData, IntPtr> _callbackToPtr = [];
 	private static readonly Dictionary<IntPtr, object> _ptrToObject = [];
 	private const string WeakUserdataCache = "__UDCACHE";
-	private static readonly int ThreadDataKey = 0x1247;
 
 	private static int _allocsSinceLastGC = 0;
 
@@ -1757,8 +1756,4 @@ public sealed partial class LuauProvider : IScriptLanguageProvider
 		public TaskCompletionSource<int> TaskSource { get; set; }
 	}
 
-	private struct ScriptThreadData
-	{
-		public Script Script;
-	}
 }
