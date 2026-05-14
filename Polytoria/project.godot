@@ -46,8 +46,8 @@ config/icon="uid://bvolad7rptrsm"
 [autoload]
 
 Globals="*res://scripts/shared/Globals.cs"
-AssetLoader="*uid://rdicloyxgx18"
-WebAssetLoader="*uid://0g13so6g55p0"
+AssetLoader="*res://scripts/shared/asset_loaders/AssetLoader.cs"
+WebAssetLoader="*res://scripts/shared/asset_loaders/WebAssetLoader.cs"
 AppCloseDimmer="*res://scripts/shared/AppCloseDimmer.cs"
 
 [display]

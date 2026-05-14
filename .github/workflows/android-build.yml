@@ -1,0 +1,51 @@
+name: "Android Build"
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  GODOT_VERSION: 4.6.2
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_NOLOGO: true
+
+jobs:
+  android-build:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        continue-on-error: true
+        with:
+          lfs: true
+          submodules: recursive
+      - name: .NET Installation
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "9.0.x"
+      - name: Setup Godot
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: ${{ env.GODOT_VERSION }}
+          use-dotnet: true
+          include-templates: true
+          cache: true
+      - name: Build APK
+        run: |
+          mkdir -p apks
+          cd Polytoria
+          unzip ~/.local/share/godot/export_templates/${{ env.GODOT_VERSION }}.stable.mono/android_source.zip -d android/build
+          echo "${{ env.GODOT_VERSION }}.stable.mono" > android/build/.build_version
+          dotnet restore
+          cp export_presets.cfg.template export_presets.cfg
+          godot --headless --export-debug "Client Android APK" ../apks/yesss.apk
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: yesss-apk
+          path: apks/yesss.apk
