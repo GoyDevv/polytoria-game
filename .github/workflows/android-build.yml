@@ -1,0 +1,73 @@
+name: Android APK Build
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  GODOT_VERSION: 4.6.2
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_NOLOGO: true
+
+jobs:
+  android-build:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          lfs: true
+          submodules: recursive
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Setup Godot
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: ${{ env.GODOT_VERSION }}
+          use-dotnet: true
+          include-templates: true
+          cache: true
+
+      - name: Prepare Android export preset
+        run: |
+          if [ ! -f Polytoria/export_presets.cfg ] && [ -f Polytoria/export_presets.cfg.template ]; then
+            cp Polytoria/export_presets.cfg.template Polytoria/export_presets.cfg
+          fi
+
+      - name: Restore .NET dependencies
+        run: dotnet restore Polytoria.sln
+
+      - name: Build solution
+        run: dotnet build Polytoria.sln -c ExportRelease --no-restore
+
+      - name: Export Android APK
+        run: |
+          mkdir -p build
+          godot --headless --path Polytoria --export-release "Android" ../build/polytoria.apk
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: polytoria-android-apk
+          path: build/polytoria.apk
+          if-no-files-found: error
